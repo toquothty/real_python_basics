@@ -1,23 +1,53 @@
 # This space is just for review  exercises.
 #
 
-captains = {
-    "Enterprise": "Picard",
-    "Voyager": "Janeway",
-    "Defiant": "Sisko"
-}
+class Dog:
+    species = "Canis familiaris"
 
-if 'Enterprise' in captains:
-    print("It's there")
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
-if "Discovery" in captains:
-    print("It's there")
-else:
-    captains['Discovery'] = 'unknown'
-    print(captains['Discovery'])
+    # Instance method
+    def description(self):
+        return f"{self.name} is {self.age} years old"
 
-for ship in captains:
-    print(f"The {ship} is captained by {captains[ship]}")
+    def speak(self, sound):
+        return f"{self.name} says {sound}"
 
-del captains["Discovery"]
-print(captains)
+class JackRusselTerrier(Dog):
+    def speak(self, sound="Arf"):
+        return super().speak(sound)
+
+class Dachshund(Dog):
+    pass
+
+class Bulldog(Dog):
+    pass
+
+class GoldenRetriever(Dog):
+    def speak(self, sound="Bark"):
+        return super().speak(sound)
+
+miles = JackRusselTerrier("Miles", 4)
+buddy = Dachshund("Buddy", 9)
+jack = Bulldog("Jack", 3)
+jim = Bulldog("Jim", 5)
+
+
+class Rectangle:
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.length * self.width
+
+class Square(Rectangle):
+    def __init__(self, side_length):
+        super().__init__(side_length, side_length)
+
+
+test = Square(5)
+print(test.area())
+
