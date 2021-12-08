@@ -1,53 +1,32 @@
-# This space is just for review  exercises.
+# This space is just for chapter follow along and review exercises.
 #
 
-class Dog:
-    species = "Canis familiaris"
+from pathlib import Path
+import shutil
 
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    # Instance method
-    def description(self):
-        return f"{self.name} is {self.age} years old"
-
-    def speak(self, sound):
-        return f"{self.name} says {sound}"
-
-class JackRusselTerrier(Dog):
-    def speak(self, sound="Arf"):
-        return super().speak(sound)
-
-class Dachshund(Dog):
-    pass
-
-class Bulldog(Dog):
-    pass
-
-class GoldenRetriever(Dog):
-    def speak(self, sound="Bark"):
-        return super().speak(sound)
-
-miles = JackRusselTerrier("Miles", 4)
-buddy = Dachshund("Buddy", 9)
-jack = Bulldog("Jack", 3)
-jim = Bulldog("Jim", 5)
+my_folder = Path.home() / "my_folder"
+my_folder.mkdir(exist_ok=True)
 
 
-class Rectangle:
-    def __init__(self, length, width):
-        self.length = length
-        self.width = width
+paths = [
+    my_folder / "file1.txt",
+    my_folder / "file2.txt",
+    my_folder / "image1.png"
+]
 
-    def area(self):
-        return self.length * self.width
+for path in paths:
+    path.touch()
 
-class Square(Rectangle):
-    def __init__(self, side_length):
-        super().__init__(side_length, side_length)
+source = my_folder / "image1.png"
+destination = my_folder / "images" / "image1.png"
 
+images = Path.home() / "my_folder" / "images"
+images.mkdir(exist_ok=True)
 
-test = Square(5)
-print(test.area())
+source.replace(destination)
 
+del_file = my_folder / "file1.txt"
+del_file.unlink()
+
+del_structure = my_folder
+shutil.rmtree(del_structure)
