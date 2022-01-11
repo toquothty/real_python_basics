@@ -5,25 +5,28 @@ from pathlib import Path
 import csv
 
 
-# daily_temperatures = [
-#     [68, 65, 68, 70, 74, 72],
-#     [67, 67, 70, 72, 72, 70],
-#     [68, 70, 74, 76, 74, 73],
-# ]
+file_path = Path.home() / "employees.csv"
 
-daily_temperatures = []
 
-file_path = Path.home() / "temperatures.csv"
-# with file_path.open(mode="w", encoding="utf-8", newline="") as file:
-#     writer = csv.writer(file)
-#     writer.writerows(daily_temperatures)
+def process_row(row):
+    row["salary"] = float(row["salary"])
+    return row
 
 
 with file_path.open(mode="r", encoding="utf-8", newline="") as file:
-    reader = csv.reader(file)
+    reader = csv.DictReader(file)
     for row in reader:
-        int_row = [int(value) for value in row]
-        daily_temperatures.append(int_row)
+        print(process_row(row))
 
 
-print(daily_temperatures)
+people = [
+    {"name": "Veronica", "age": 29},
+    {"name": "Audrey", "age": 32},
+    {"name": "Sam", "age": 23},
+]
+
+file_path = Path.home() / "people.csv"
+file = file_path.open(mode="w", encoding="utf-8", newline="")
+writer = csv.DictWriter(file, fieldnames=["name", "age"])
+writer.writeheader()
+writer.writerows(people)
