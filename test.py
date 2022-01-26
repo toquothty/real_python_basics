@@ -4,21 +4,26 @@
 import sqlite3
 
 
-create_table = """
+sql = """
+DROP TABLE IF EXISTS People;
 CREATE TABLE People(
     FirstName TEXT,
     LastName TEXT,
     Age INT
-);"""
-
-insert_values = """
+);
 INSERT INTO People VALUES(
     'Ron',
-    'Test',
-    42
+    'Obvious',
+    33
 );"""
+
+people_values = (
+    ("Ron", "Obvious", 42),
+    ("Luigi", "Vercotti", 43),
+    ("Arthur", "Belling", 28),
+)
 
 with sqlite3.connect("test_database.db") as connection:
     cursor = connection.cursor()
-    cursor.execute(create_table)
-    cursor.execute(insert_values)
+    cursor.executescript(sql)
+    cursor.executemany("INSERT INTO People VALUES(?, ?, ?)", people_values)
