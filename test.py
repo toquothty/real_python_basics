@@ -3,10 +3,22 @@
 
 import sqlite3
 
+
+create_table = """
+CREATE TABLE People(
+    FirstName TEXT,
+    LastName TEXT,
+    Age INT
+);"""
+
+insert_values = """
+INSERT INTO People VALUES(
+    'Ron',
+    'Test',
+    42
+);"""
+
 with sqlite3.connect("test_database.db") as connection:
     cursor = connection.cursor()
-    query = "SELECT datetime('now', 'localtime');"
-    results = cursor.execute(query)
-    row = results.fetchone()
-    time = row[0]
-    print(time)
+    cursor.execute(create_table)
+    cursor.execute(insert_values)
