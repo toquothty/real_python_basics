@@ -5,24 +5,29 @@ import sqlite3
 
 
 values = (
-    ("Ron", "Obvious", 42),
-    ("Luigi", "Vercotti", 43),
-    ("Arthur", "Belling", 28),
+    ("Benjamin Sisko", "Human", 40),
+    ("Jadzia Dax", "Trill", 300),
+    ("Kira Nerys", "Bajoran", 29),
 )
 
-with sqlite3.connect("test_database.db") as connection:
+with sqlite3.connect("Roster.db") as connection:
     cursor = connection.cursor()
-    cursor.execute("DROP TABLE IF EXISTS People")
+    cursor.execute("DROP TABLE IF EXISTS Roster")
     cursor.execute(
         """
-    CREATE TABLE People(
-        FirstName TEXT,
-        LastName TEXT,
+    CREATE TABLE Roster(
+        Name TEXT,
+        Species TEXT,
         Age INT
     );"""
     )
 
-    cursor.executemany("INSERT INTO People VALUES(?, ?, ?);", values)
-    cursor.execute("SELECT FirstName, LastName FROM People WHERE Age > 30;")
+    cursor.executemany("INSERT INTO Roster VALUES(?, ?, ?);", values)
+    cursor.execute(
+        "UPDATE Roster SET Name=? WHERE Species=? and Age=?;",
+        ("Ezri Dax", "Bajoran", 29),
+    )
+
+    cursor.execute("SELECT Name, Age FROM Roster WHERE Species = 'Bajoran';")
     for row in cursor.fetchall():
         print(row)
