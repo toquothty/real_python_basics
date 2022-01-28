@@ -1,33 +1,19 @@
 # This space is just for chapter follow along and review exercises.
 #
 
-import sqlite3
+from turtle import title
+from urllib.request import urlopen
 
+url = "http://olympus.realpython.org/profiles/aphrodite"
+page = urlopen(url)
 
-values = (
-    ("Benjamin Sisko", "Human", 40),
-    ("Jadzia Dax", "Trill", 300),
-    ("Kira Nerys", "Bajoran", 29),
-)
+html_bytes = page.read()
+html = html_bytes.decode("utf-8")
 
-with sqlite3.connect("Roster.db") as connection:
-    cursor = connection.cursor()
-    cursor.execute("DROP TABLE IF EXISTS Roster")
-    cursor.execute(
-        """
-    CREATE TABLE Roster(
-        Name TEXT,
-        Species TEXT,
-        Age INT
-    );"""
-    )
+title_index = html.find("<title>")
+start_index = title_index + len("<title>")
+end_index = html.find("</title>")
 
-    cursor.executemany("INSERT INTO Roster VALUES(?, ?, ?);", values)
-    cursor.execute(
-        "UPDATE Roster SET Name=? WHERE Species=? and Age=?;",
-        ("Ezri Dax", "Bajoran", 29),
-    )
+title = html[start_index:end_index]
 
-    cursor.execute("SELECT Name, Age FROM Roster WHERE Species = 'Bajoran';")
-    for row in cursor.fetchall():
-        print(row)
+print(title)
