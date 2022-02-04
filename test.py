@@ -1,23 +1,25 @@
 # This space is just for chapter follow along and review exercises.
 #
 
+from distutils.log import log
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+import mechanicalsoup
 
-url = "http://olympus.realpython.org/profiles"
-page = urlopen(url)
-html = page.read().decode("utf-8")
-soup = BeautifulSoup(html, "html.parser")
+browser = mechanicalsoup.Browser()
+url = "http://olympus.realpython.org/login"
+login_page = browser.get(url)
+login_html = login_page.soup
 
-url_list = []
+form = login_html.select("form")[0]
+form.select("input")[0]["value"] = "zeus"
+form.select("input")[1]["value"] = "ThunderDude"
 
-for link in soup.find_all("a"):
-    url_list.append(link["href"])
+profiles_page = browser.submit(form, login_page.url)
 
-for profile in url_list:
-    new_url = "http://olympus.realpython.org" + profile
-    print(new_url)
-    page = urlopen(new_url)
-    html = page.read().decode("utf-8")
-    soup = BeautifulSoup(html, "html.parser")
-    print(soup.get_text())
+links = profiles_page.soup.select("a")
+
+for link in links:
+    address = link["href"]
+    text = link.text
+    print(f"{text}: {address}")
