@@ -2,17 +2,10 @@
 #
 
 
-import mechanicalsoup
-import time
+import easygui as gui
 
-browser = mechanicalsoup.Browser()
+# Exercise one
+gui.msgbox(msg="Warning", title="Watch out!", ok_button="I'll be careful!")
 
-for i in range(4):
-    page = browser.get("http://olympus.realpython.org/dice")
-    tag = page.soup.select("#result")[0]
-    result = tag.text
-    time_rolled = page.soup.select("#time")[0]
-    time_result = time_rolled.text
-    print(f"the result of your dice roll is: {result} at {time_result}")
-    if i < 3:
-        time.sleep(4)
+# Exercise two
+gui.enterbox("What is your name?")
